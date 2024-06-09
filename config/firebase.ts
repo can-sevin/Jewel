@@ -8,6 +8,7 @@ const firebaseConfig = {
   apiKey: Constants.expoConfig?.extra?.apiKey,
   authDomain: Constants.expoConfig?.extra?.authDomain,
   projectId: Constants.expoConfig?.extra?.projectId,
+  databaseURL: Constants.expoConfig?.extra?.databaseURL,
   storageBucket: Constants.expoConfig?.extra?.storageBucket,
   messagingSenderId: Constants.expoConfig?.extra?.messagingSenderId,
   appId: Constants.expoConfig?.extra?.appId,

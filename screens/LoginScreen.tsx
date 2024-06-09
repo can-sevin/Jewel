@@ -25,8 +25,7 @@ export const LoginScreen = ({ navigation }) => {
       <View isSafe style={styles.container}>
         <KeyboardAwareScrollView enableOnAndroid={true}>
           {/* LogoContainer: consist app logo and screen title */}
-          <View style={styles.logoContainer}>
-            <Logo uri={Images.logo} />
+          <View style={styles.logoContainer} isSafe>
             <Text style={styles.screenTitle}>Welcome back!</Text>
           </View>
           <Formik
@@ -57,8 +56,7 @@ export const LoginScreen = ({ navigation }) => {
                   autoFocus={true}
                   value={values.email}
                   onChangeText={handleChange("email")}
-                  onBlur={handleBlur("email")}
-                />
+                  onBlur={handleBlur("email")} rightIcon={undefined} handlePasswordVisibility={undefined}                />
                 <FormErrorMessage
                   error={errors.email}
                   visible={touched.email}
@@ -86,7 +84,7 @@ export const LoginScreen = ({ navigation }) => {
                   <FormErrorMessage error={errorState} visible={true} />
                 ) : null}
                 {/* Login button */}
-                <Button style={styles.button} onPress={handleSubmit}>
+                <Button style={styles.button} onPress={handleSubmit} children={undefined} title={undefined}>
                   <Text style={styles.buttonText}>Login</Text>
                 </Button>
               </>
@@ -97,20 +95,18 @@ export const LoginScreen = ({ navigation }) => {
             style={styles.borderlessButtonContainer}
             borderless
             title={"Create a new account?"}
-            onPress={() => navigation.navigate("Signup")}
-          />
+            onPress={() => navigation.navigate("Signup")} children={undefined}          />
           <Button
             style={styles.borderlessButtonContainer}
             borderless
             title={"Forgot Password"}
-            onPress={() => navigation.navigate("ForgotPassword")}
-          />
+            onPress={() => navigation.navigate("ForgotPassword")} children={undefined}          />
         </KeyboardAwareScrollView>
       </View>
 
       {/* App info footer */}
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>Expo Firebase Starter App</Text>
+      <View style={styles.footer} isSafe={undefined} children={undefined}>
+        <Text style={styles.footerText}>Jewel App</Text>
       </View>
     </>
   );

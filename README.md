@@ -67,7 +67,7 @@ npx expo run:ios
 ## File Structure
 
 ```shell
-Expo Firebase Starter
+Jewel
 ├── assets ➡️ All static assets, includes app logo
 ├── components ➡️ All re-suable UI components for form screens
 │   └── Button.js ➡️ Custom Button component using Pressable, comes with two variants and handles opacity

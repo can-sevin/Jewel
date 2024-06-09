@@ -23,7 +23,7 @@ export const ForgotPasswordScreen = ({ navigation }) => {
 
   return (
     <View isSafe style={styles.container}>
-      <View style={styles.innerContainer}>
+      <View isSafe={false} style={styles.innerContainer}>
         <Text style={styles.screenTitle}>Reset your password</Text>
       </View>
       <Formik
