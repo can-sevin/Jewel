@@ -21,6 +21,13 @@ export default {
     ios: {
       supportsTablet: true,
     },
+    android: {
+      package: "com.yourcompany.yourappname", // Replace with your app's unique package name
+      adaptiveIcon: {
+        foregroundImage: "./assets/icon.png",
+        backgroundColor: "#FFFFFF",
+      },
+    },
     extra: {
       apiKey: process.env.API_KEY,
       authDomain: process.env.AUTH_DOMAIN,
@@ -29,6 +36,9 @@ export default {
       databaseURL: process.env.DATABASE_URL,
       messagingSenderId: process.env.MESSAGING_SENDER_ID,
       appId: process.env.APP_ID,
+      eas: {
+        projectId: "0fe0ce41-2003-4030-9d6a-5a3ce9497064", // Your EAS project ID
+      },
     },
   },
 };

@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import ProductList from "../components/ProductList";
 
-export const HomeScreen = () => {
+export const HomeScreen = ({ navigation }) => {
   const [fontsLoaded, fontError] = useFonts({
     Bold: require("../assets/fonts/Poppins-Bold.ttf"),
     Medium: require("../assets/fonts/Poppins-Medium.ttf"),
@@ -14,14 +14,10 @@ export const HomeScreen = () => {
     SemiBold: require("../assets/fonts/Poppins-SemiBold.ttf"),
   });
 
-  const handleLogout = () => {
-    signOut(auth).catch((error) => console.log("Error logging out: ", error));
-  };
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>List Of Products</Text>
-      {/* <Button title="Sign Out" onPress={handleLogout} /> */}
-      <ProductList />
+      <ProductList navigation={navigation} />
     </SafeAreaView>
   );
 };

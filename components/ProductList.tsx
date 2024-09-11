@@ -1,46 +1,64 @@
 import React, { useState, useEffect } from "react";
+import { View, Text, FlatList, Image, StyleSheet } from "react-native";
 import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
-import { fetchProducts } from "../providers/StorageProvider";
-import { getDatabase, ref, set } from "firebase/database";
+  downloadPreview,
+  fetchProductPreviews,
+  fetchProducts,
+  getAllOfItems,
+  setAllOfItems,
+  threeDownload,
+} from "../providers/StorageProvider";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-const ProductList = () => {
-  const [products, setProducts] = useState([]);
-  const database = getDatabase();
+const ProductList = ({ navigation }) => {
+  const [products, setProducts] = useState(null);
+  const [previews, setPrewiews] = useState([]);
 
   useEffect(() => {
     const loadProducts = async () => {
       const fetchedProducts = await fetchProducts();
+      const fetchedProductPreviews = await fetchProductPreviews();
+
       const productNames = fetchedProducts.map((product) => product.name);
 
-      productNames.map((product) =>
-        set(ref(database, "products/" + product.name), {
-          name: product.name,
-          price: 1000,
-          type: "ring",
-        })
+      setAllOfItems(productNames);
+
+      const previewPromises = fetchedProductPreviews.map((product) =>
+        downloadPreview(product.name)
       );
 
-      setProducts(fetchedProducts);
+      Promise.all(previewPromises)
+        .then(async (previews: any) => {
+          setPrewiews(previews);
+          try {
+            const productsDatabase = await getAllOfItems();
+            setProducts(productsDatabase);
+          } catch (error) {
+            console.error("Error fetching products:", error);
+          }
+        })
+        .catch((error) => {
+          console.log("Error fetching previews:", error);
+        });
     };
     loadProducts();
   }, []);
 
-  const renderItem = ({ item }) => {
-    console.log("item", item);
-
+  const renderItem = ({ item, index }) => {
     return (
-      <View style={styles.itemContainer}>
-        <Image source={{ uri: item.imageUrl }} style={styles.image} />
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Product",{index: index, item: item})}
+        style={styles.itemContainer}
+      >
+        <Image
+          source={{
+            uri: previews[index],
+          }}
+          style={styles.image}
+        />
         <Text style={styles.text}>{item.name}</Text>
-        <Text style={styles.price}>{item.price}</Text>
-      </View>
+        <Text style={styles.price}>{item.price}TL</Text>
+      </TouchableOpacity>
     );
   };
 
@@ -61,21 +79,22 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     flex: 1,
-    margin: 10,
     alignItems: "center",
   },
   image: {
-    width: Dimensions.get("window").width / 2 - 30,
-    height: Dimensions.get("window").width / 2 - 30,
-    borderRadius: 10,
+    width: 160,
+    height: 160,
+    flex: 1,
+    margin: 12,
+    borderRadius: 8,
   },
   text: {
     marginTop: 10,
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
   },
   price: {
-    marginTop: 5,
+    marginTop: 12,
     fontSize: 14,
     color: "gray",
   },
